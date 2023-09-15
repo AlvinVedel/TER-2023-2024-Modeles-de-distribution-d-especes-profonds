@@ -9,7 +9,7 @@ La réalisation d'un tel projet est appliquable mais également cruciale pour la
 ## Membres du groupe :
 
 - Breillad Matis (matis.breillad@etu.univ-montp3.fr)
-- Dubois Florian (florian.dubois@etu.univ-montp3.fr)
+- Dubois Florian (florian.dubois1@etu.univ-montp3.fr)
 - Vedel Alvin (alvin.vedel@etu.univ-montp3.fr)
 
 ## Liens utiles :
