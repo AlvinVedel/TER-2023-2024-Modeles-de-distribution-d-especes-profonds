@@ -1,0 +1,88 @@
+---
+title: "Visualisation des données"
+author: "AbioDEEP"
+date: "`r Sys.Date()`"
+output:
+  rmdformats::html_clean:
+    code_folding: hide
+    
+---
+# Présences Only
+
+Liste des espèces observées spontanément dans plusieurs lieux, ne donne donc aucune information sur l'absence d'une espèce dans un lieu précis. Ce jeu de données à la même structure que le dataset PA (voir ci-dessous). 
+```{r include=F }
+#On définit les chunks du rmd
+knitr::opts_chunk$set(
+  echo = TRUE, cache = TRUE, prompt = FALSE,
+  tidy = FALSE, comment = NA,
+  message = FALSE, warning = FALSE
+)
+#Apelle des librairies nécessaires
+library(fpp3)
+library(tsibble)
+library(lubridate)
+library(DT)
+```
+# Présences / Absences {.tabset .tabset-fade}
+Ce jeu de données indique, pour différent lieu, toutes les espèces présentes et indique donc, en même temps, quels sont les espèces absentes.
+
+## Jeu de données :
+Ce jeu de données contient 85326 observations dont les principales variables sont :
+
+- "speciesId" Identification de l'espèce enregistré 
+- "lat" lattitude de l'observation
+- "long" Longitude de l'observation
+- "date Date de l'observation
+- D'autres variables d'identification, de localisation ou de temporalité 
+```{r }
+#Appel du jeu de données et résumé
+setwd("C:/Users/mbrei/Desktop/MIASHS/TER/R/data")
+data <- read.csv2(file="Presences_Absences_train.csv")
+
+datatable(data)
+summary(data)
+```
+
+## Fréquence d'observations
+
+```{r fig.cap="Nombre d'observations selon l'espèce"}
+#Tableau de contingence et histogramme
+table <- data.frame(sort(table(data$speciesId),decreasing=T)[1:100])
+colnames(table) <- c(var1="Id de l'espèce",Freq="Nombre d'observations") 
+head(table)
+
+hist(data$speciesId,freq=T,breaks=500)
+```
+
+## Visualisation de l'espèce la plus observée
+
+```{r fig.cap="Evolution de nombre d'observations en fonction des années de l'espèce 4284"}
+#Nouveau df avec uniquement l'espèce 4284
+species1 <- data[which(data$speciesId==4284),]
+
+#Transformer la var date en type date
+species1$date <- as.Date(data[which(data$speciesId==4284),]$date, format = "%d/%m/%Y")
+
+#Nombre d'observations lors de l'étude
+ggplot(species1, aes(x = date)) +
+  geom_histogram(binwidth = 50, fill = "white", color = "black") +
+  labs(title = "Evolution de nomvbre d'observations en fonction de l'année de l'espèce 4284",
+       x = "Date",
+       y = "Nombre d'observations")
+```
+
+# Variables qualitatives :
+Pour chaque observation d'une espèce nous possédons des données géographiques et environnementales spatialisées. 
+
+## Imagerie satellite
+image satellite 128x128 à quatre bandes à une résolution de 10m autour du lieu d'occurrence
+
+## Série temporel satellite 
+valeurs passées pour six bandes satellites à l'emplacement du point
+
+## Image matricielle environnementale
+Variables climatiques et pédologiques, l'utilisation des terres et l'empreinte humain
+
+
+
+
