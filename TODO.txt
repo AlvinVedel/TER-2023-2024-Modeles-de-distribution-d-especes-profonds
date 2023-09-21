@@ -1,0 +1,12 @@
+- Rédiger Rendu 1
+- Plot des cartes par espèces (explo données)
+- Statistiques sur les datas (explo données)
+- Analyser test Kaggle (premier modèle présence only)
+ 
+- Réfléchir / Rédiger Rendu 2
+
+
+=> Organisation à valider :
+- Flo : Plot des cartes (déjà dessus) + statistiques en compléments avec celles de Matis (df.describe et qlqs moyennes)
+- Matis : Analyse des test Kaggle (celui qui a le plus lu le Kaggle)
+- Alvin : Rédaction rendu 1 et assistance Flo / Matis
