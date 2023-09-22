@@ -71,6 +71,48 @@ ggplot(species1, aes(x = date)) +
        y = "Nombre d'observations")
 ```
 
+## Observation de patchID
+
+```{r}
+#On s'intéresse aux coordoonées, patchID et lat/long
+str(data)
+patch <- as.factor(data$patchID)
+
+class(patch)
+length(unique(patch))
+
+data_patch <- data.frame(table(patch))
+
+colnames(data_patch) <- c("PatchID", "Fréquence")
+
+# Triez le dataframe par le nombre d'apparitions, de la plus vue à la moins vue
+data_patch <- data_patch[order(-data_patch$Fréquence), ]
+datatable(data_patch)
+
+```
+
+## Observation selon jour de l'année
+```{r}
+#DatofYear
+doy <- data.frame(table(data$dayOfYear))
+colnames(doy) <- c("DayofYear","Effectif")
+datatable(doy)
+hist(data$dayOfYear)
+
+data_year <- data.frame(DayofYear=data$dayOfYear,Year=data$year)
+
+# Créez un graphique à barres groupées avec ggplot2
+ggplot(data_year, aes(x = DayofYear, fill=factor(Year))) +
+  geom_histogram(alpha=0.5,position="stack",colour="black") + 
+  labs(title="Nombre d'observations en fonction du jour de l'année",x = "Jour de l'année", y = "Efectif", fill="Année")+
+  scale_fill_manual(values=c("#000000","#000060","#004EFF","#00BCFF","#C0C0C0"))+
+  geom_vline(xintercept = c(80, 170, 266, 353), color = "red") +
+  annotate("text", x = c(120,200,300,20), y = 8000, 
+           label = c("Printemps", "Été", "Automne","Hiver"), color = "red")
+```
+
+
+
 # Variables qualitatives :
 Pour chaque observation d'une espèce nous possédons des données géographiques et environnementales spatialisées. 
 
