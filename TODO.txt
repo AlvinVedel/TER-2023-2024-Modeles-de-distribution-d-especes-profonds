@@ -8,5 +8,5 @@
 
 => Organisation à valider :
 - Flo : Plot des cartes (déjà dessus) + statistiques en compléments avec celles de Matis (df.describe et qlqs moyennes)
-- Matis : Analyse des test Kaggle (celui qui a le plus lu le Kaggle)
+- Matis : Analyse des test Kaggle pour premier modeles (celui qui a le plus lu le Kaggle)
 - Alvin : Rédaction rendu 1 et assistance Flo / Matis
