@@ -14,5 +14,5 @@ La réalisation d'un tel projet est appliquable mais également cruciale pour la
 
 ## Liens utiles :
 
-Kaggle : [GeoLife Clef 2023](https://www.kaggle.com/competitions/geolifeclef-2023-lifeclef-2023-x-fgvc10) *Datas et test de modèles*
+Kaggle : [GeoLife Clef 2023](https://www.kaggle.com/competitions/geolifeclef-2023-lifeclef-2023-x-fgvc10) *Datas et test de modèles*  
 Rapport : [Google Drive rendu](https://docs.google.com/document/d/1Tl9FDSC_BRKFGO8p-5YY1QgzUnIbTJwKHIysE9BG8QI/edit?pli=1) *Lien drive pour écriture*
