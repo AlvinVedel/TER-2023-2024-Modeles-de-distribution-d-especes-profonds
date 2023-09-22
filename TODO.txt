@@ -1,7 +1,7 @@
 - Rédiger Rendu 1
 - Plot des cartes par espèces (explo données)
 - Statistiques sur les datas (explo données)
-- Analyser test Kaggle (premier modèle présence only)
+- Analyser test Kaggle (premier modèle présence/absence)
  
 - Réfléchir / Rédiger Rendu 2
 
