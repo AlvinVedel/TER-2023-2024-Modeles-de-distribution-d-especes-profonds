@@ -1,12 +1,18 @@
-- Rédiger Rendu 1
-- Plot des cartes par espèces (explo données)
-- Statistiques sur les datas (explo données)
-- Analyser test Kaggle (premier modèle présence/absence)
- 
+TODO :
+- Rédiger Rendu 1 -- A terminer + Drive
+- Statistiques sur les datas (explo données) -- A terminer sur R 
+- Plot cartes données abiotiques 
+- Modeles des K voisins
+
 - Réfléchir / Rédiger Rendu 2
 
 
 => Organisation à valider :
-- Flo : Plot des cartes (déjà dessus) + statistiques en compléments avec celles de Matis (df.describe et qlqs moyennes)
-- Matis : Analyse des test Kaggle pour premier modeles (celui qui a le plus lu le Kaggle)
-- Alvin : Rédaction rendu 1 et assistance Flo / Matis
+- Flo : Plot données abiotiques
+- Matis : Statistiques sur R
+- Alvin : Rédaction rendu 1
+
+
+Fini :
+-  Plot des cartes par espèces (explo données)
+- Analyser test Kaggle (premier modèle présence/absence) - Naifq uniquement

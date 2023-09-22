@@ -18,7 +18,7 @@ Et enfin concernant les SateliteTimeSeries, je crois avoir compris qu'il s'agit 
 
 
 
-R :  "Pour le premier semestre, j’aimerais uniquement un modèle sur les données présence-absence uniquement sur les positions spatiales puis avec les variables environnementales fournies dans les CSV.. Si vous arrivez à faire ces deux types de modèles et à soumettre des résultats sur Kaggle, je pense que ça ira. (Plus des visualisation des données, etc.).
+R (Servajean) :  "Pour le premier semestre, j’aimerais uniquement un modèle sur les données présence-absence uniquement sur les positions spatiales puis avec les variables environnementales fournies dans les CSV.. Si vous arrivez à faire ces deux types de modèles et à soumettre des résultats sur Kaggle, je pense que ça ira. (Plus des visualisation des données, etc.).
 
 Beaucoup d’explications sont fournies directement sur le site Kaggle. Les csv de baselines runs sont des exemples de fichier qu’on peut soumettre sur Kaggle. Il s’agit en l’occurence des baseslines : les modèles dont on voit les performances grisées sur le leaderbords.
 
@@ -29,3 +29,16 @@ Pour les JPG ou les TIF, il faudra passer par des réseaux de neurones.. On atte
 En fait, c’est souvent le proche infra-rouge (NIR) qui fait le mieux ressortir la végétation mais oui, la couleur du sol est une bonne description de l’environnement.. Il ne s’agit pas que de savoir s’il y a de la végétation, mais s’il y a de l’eau, de la pluie, de la neige, des constructions, un sol aride ou non, etc. Chaque série temporelle est associée à une observation. N’hésitez pas à relire le kaggle qui explique un peu la structure de ces données.
 
 Bonne journée et n’hésitez pas si vous avez des questions !"
+
+
+
+
+
+Q : Concernant le rendu 1 du TER, vous attendez simplement une ou des question.s ou des paragraphes détaillés répondant  aux différents points du diaporama suivies des questions ?
+
+De plus, je n'ai pas accès aux rendus sur moodle. Il y a marqué que nous ne faisons partie d'aucun groupe.
+
+
+R (Lafaye) : J'ai créé les groupes donc cela devrait fonctionner maintenant.
+
+Concernant les rendus, comme je l'ai déjà expliqué en classe, ce qui est attendu est un mini-rapport, et pas une liste de questions avec des réponses. Les points du diaporama sont juste là pour vous aider à décider que mettre dans ces mini rapports. 
