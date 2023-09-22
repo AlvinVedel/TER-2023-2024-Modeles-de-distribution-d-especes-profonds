@@ -15,4 +15,4 @@ TODO :
 
 Fini :
 -  Plot des cartes par espèces (explo données)
-- Analyser test Kaggle (premier modèle présence/absence) - Naifq uniquement
+- Analyser test Kaggle (premier modèle présence/absence) - Naif uniquement
