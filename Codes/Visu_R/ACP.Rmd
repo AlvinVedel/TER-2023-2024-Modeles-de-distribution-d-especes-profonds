@@ -1,0 +1,73 @@
+---
+title: "ACP"
+author: "AbioDEEP"
+date: "`r Sys.Date()`"
+output:
+  rmdformats::html_clean:
+    code_folding: hide
+---
+```{r}
+#On définit les chunks du rmd
+knitr::opts_chunk$set(
+  echo = TRUE, cache = TRUE, prompt = FALSE,
+  tidy = FALSE, comment = NA,
+  message = FALSE, warning = FALSE
+)
+
+#Librairie
+library(fpp3)
+library(DT)
+library(FactoMineR)
+library(psych)
+
+#Appel de la donnée
+setwd("C:/Users/mbrei/Desktop/MIASHS/TER/R/data")
+
+abio_data <- read.csv2(file="enviroTab_pa_train.csv")
+pa_data <- read.csv2(file="Presences_Absences_train.csv")
+```
+# Analyse des données
+On s'intéresse dans ce document à l'analyse exploratoire des données abiotiques.
+
+```{r}
+datatable(head(abio_data))
+```
+Chaque ligne correspond à un patchID (zone géographique) et on a 19 variables quantitatives nommées "bio" ainsi que des variables du sol (nitrogen, sand, ...)
+```{r}
+str(abio_data)
+describe(abio_data$patchID)
+#Changement de type
+abio_data$bio3 <- as.numeric(abio_data$bio3)
+```
+On modifie le type des variables mal interprété par R (notamment bio3 de chr à num). Et on supprime ou modifie les valeurs vides.
+# ACP
+```{r}
+resultat=PCA(abio_data[,10:28], graph=F)
+resultat
+```
+On a appliqué une ACP sur les variables bio.
+
+```{r}
+plot.PCA(resultat, choix="ind", label="none", habillage="none")
+```
+On a ` resultat$eig[2,3] ` % des informations affichées sur nos deux axes, on sait donc déjà que nos variables seront très corrélées.
+
+| Variable | Corrélation | Valeur |
+|----------|----------|----------|
+|Bio1-Bio2 | Donnée   | Donnée   |
+| Ligne 2  | Donnée   | Donnée   |
+
+# Qualité de l'ACP
+```{r}
+resultat$eig
+```
+
+
+
+
+
+
+
+
+
+
