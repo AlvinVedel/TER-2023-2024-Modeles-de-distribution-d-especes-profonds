@@ -42,3 +42,14 @@ De plus, je n'ai pas accès aux rendus sur moodle. Il y a marqué que nous ne fa
 R (Lafaye) : J'ai créé les groupes donc cela devrait fonctionner maintenant.
 
 Concernant les rendus, comme je l'ai déjà expliqué en classe, ce qui est attendu est un mini-rapport, et pas une liste de questions avec des réponses. Les points du diaporama sont juste là pour vous aider à décider que mettre dans ces mini rapports. 
+
+
+
+
+
+
+Q :Nous avons proposé un premier modèle de K-voisins soumis sur Kaggle (score de 0.17) et construis une matrice de co-occurence. Lors du rdv de vendredi dernier, j'ai cru comprendre qu'il était possible de corriger les erreurs du Knn à l'aide de cette matrice. Et son exploitation est-elle aussi liée aux données de présence uniquement? Par exemple en déterminant les probabilités de co-occurence à partir des espèces observées.
+
+R :  Il faut calculer la matrice de co-occurence sur les présences-absences. Si je note p les prédictions de votre modèle et C la matrice qui « corrige » (partiellement) les biais, alors les prédictions mises à jour sont données par : 
+
+C^t p
