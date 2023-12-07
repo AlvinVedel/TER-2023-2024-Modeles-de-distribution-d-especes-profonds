@@ -1,0 +1,174 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+
+```{r}
+
+df <- read.csv("C:\\Users\\Utilisateur\\Downloads\\presence_1_0_par_patch.csv", header=T, sep=',')
+
+
+head(df)
+
+especes = df[, 50:ncol(df)]
+head(especes)
+
+```
+
+```{r}
+head(df)
+
+
+
+```
+
+
+
+```{r}
+df_bio <- cbind(df[, 12:38], df[, c(4,5)])
+df_bio <- df[, 11:38]
+head(df_bio)
+```
+
+```{r}
+library(FactoMineR)
+library(factoextra)
+?PCA
+sup <- especes[, 1]
+sup
+acp_result <- PCA(df_bio, quali.sup = sup)
+```
+
+
+
+```{r}
+acp$eig
+```
+
+
+
+```{r}
+# Charger les packages nécessaires
+library(FactoMineR)
+library(e1071)
+
+# Supposons que vous avez déjà effectué une ACP
+# et stocké les résultats dans un objet appelé acp_result
+# (par exemple, acp_result <- PCA(df, graph = FALSE))
+
+# Sélectionner les 4 premières composantes principales
+coord_acp <- as.data.frame(acp$ind$coord[, 1:4])
+
+# Ajouter la variable de classe
+coord_acp$label <- as.factor(especes[, 1])
+
+
+
+library(caret)
+indices <- createDataPartition(coord_acp$label, p = 0.7, list = FALSE)
+
+train_data <- coord_acp[indices, ]
+test_data <- coord_acp[-indices, ]
+
+
+# Créer le modèle SVM
+svm_model <- svm(label ~ ., data = coord_acp, kernel = "radial")
+
+predictions <- predict(svm_model, newdata = test_data)
+confusion_matrix <- table(classe_predite = predictions, classe_reelle = test_data$label)
+print(confusion_matrix)
+
+accuracy <- sum(diag(confusion_matrix)) / sum(confusion_matrix)
+print(paste("Accuracy:", accuracy))
+
+head(coord_acp)
+ 
+
+```
+
+
+```{r}
+new_data = read.csv("C:\\Users\\Utilisateur\\Cours\\Master\\TER-2023-2024-Modeles-de-distribution-d-especes-profonds\\Data\\Data_submission\\enviroTab_pa_test.csv", sep=';')
+
+
+data_test <- new_data[, 11:38]
+new_data_pca <- predict(acp, newdata = data_test)
+
+
+
+new_data_pca_df <- as.data.frame(new_data_pca)
+coordonnees <- new_data_pca_df[, 1:4]
+colnames(coordonnees) <- c("Dim.1", "Dim.2", "Dim.3", "Dim.4")
+
+head(especes)
+head(coordonnees)
+
+
+
+predictions_vector <- numeric(0)
+
+for (i in seq(0, 10, 1)) {
+  print(i)
+  label <- as.factor(especes[, i])
+  svm_model <- svm(label ~ ., data = coord_acp, kernel = "radial")
+  new_predictions <- predict(svm_model, newdata = coordonnees)
+  predictions_vector <- c(predictions_vector, new_predictions)
+}
+
+num_cols <- 10#length(especes)
+predictions <- as.data.frame(matrix(predictions_vector, ncol = num_cols, byrow = TRUE))
+head(predictions)
+colnames(predictions) <- paste("Predictions_", colnames(especes), sep = "")
+
+
+
+
+
+
+new_predictions <- predict(svm_model, newdata = coordonnees)
+summary(svm_model)
+
+
+#new_predictions
+#coord_acp$label
+
+confusion_matrix <- table(new_predictions, coord_acp$label)
+print(confusion_matrix)
+
+?predict
+
+head(new_data_pca_df)
+
+```
+
+
+
+
+
+```{r}
+
+
+# Installer le package si ce n'est pas déjà fait
+# install.packages("caret")
+
+# Charger le package
+library(caret)
+
+# Supposons que votre dataframe est df et que votre variable de classe est 'label'
+# Assurez-vous que 'label' est une variable de type factor
+
+# Créer une partition des indices pour l'ensemble d'entraînement (70%) et l'ensemble de test (30%)
+set.seed(123)  # Pour la reproductibilité des résultats
+indices <- createDataPartition(df$label, p = 0.7, list = FALSE)
+
+# Créer les ensembles d'entraînement et de test
+train_data <- df[indices, ]
+test_data <- df[-indices, ]
+
+
+```
+
+
+
