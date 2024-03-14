@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visu</title>
+    <link rel="stylesheet" href="leaflet/leaflet.css" /> 
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js" integrity="sha512-M7nHCiNUOwFt6Us3r8alutZLm9qMt4s9951uo8jqO4UwJ1hziseL6O3ndFyigx6+LREfZqnhHxYjKRJ8ZQ69DQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="leaflet/leaflet.js"></script>
+    <link rel="stylesheet" href="leaflet/MarkerCluster.css" /> 
+    <link rel="stylesheet" href="leaflet/MarkerCluster.Default.css" /> 
+    <script src="leaflet/leaflet.markercluster.js"></script>
+    <script src="leaflet/leaflet-heat.js"></script>
+    
+    <style>
+        #divmap {
+            width: 1200px;
+            height: 800px;
+            border: 3px solid grey;
+        }
+    </style>
+    
+</head>
+<body>
+    <div id="divmap"></div>
+    <script>
+        var map = L.map('divmap').setView([51, 4], 5.2);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { 
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>' ,
+            maxZoom: 17, 
+            minZoom: 1 })
+        .addTo(map);
+
+        var layer = L.layerGroup();
+
+        $.ajax({
+            url: "donnees_abio_especes.json", 
+            dataType: "json", 
+            success: function(data){
+
+                // Parcours des données JSON
+                data.forEach(function(data) {
+                    // Récupération des coordonnées lat et long
+                    var lat = data.lat;
+                    var lon = data.lon;
+
+                    // Création d'un cercle marqueur à la position spécifiée
+                    var marker = L.circleMarker([lat, lon], {
+                        radius: 3, // rayon du cercle
+                        color: 'red', // couleur de la bordure
+                        fillOpacity: 0.5 // opacité de remplissage
+                    });
+
+                    // Ajout du marqueur à la couche
+                    layer.addLayer(marker);
+                });
+
+                
+            // Ajout de la couche à la carte
+            layer.addTo(map);
+            }
+            });
+    </script>
+    <input type = "radio" name ="selection" id="trainLayerButton" checked> Lieux du jeu de train </input> <br>
+    <input type = "radio" name ="selection"  id="predictionLayerButton"> Lieux à prédire </input> <br>
+    <input type = "radio" name ="selection"  id="hetMapLayerButton"> Afficher Heatmap </input> <br>
+
+    <script>
+        // PREDICTION
+        var predictionLayerButton = document.getElementById('predictionLayerButton');
+
+        // Ajout d'un écouteur d'événement pour le clic sur le bouton
+        predictionLayerButton.addEventListener('click', function() {
+            // Retirer la couche existante de la carte
+            map.removeLayer(layer);
+
+            // Créer une nouvelle couche de marqueurs
+            layer = L.layerGroup();
+
+            // Charger les données depuis le fichier JSON
+            $.ajax({
+                url: "donnees_abio_prediction.json", 
+                dataType: "json", 
+                success: function(data) {
+                    // Parcours des données JSON
+                    data.forEach(function(point) {
+                        // Récupération des coordonnées lat et lon
+                        var lat = point.lat;
+                        var lon = point.lon;
+
+                        // Création d'un cercle marqueur à la position spécifiée
+                        var marker = L.circleMarker([lat, lon], {
+                            radius: 3, // rayon du cercle
+                            color: 'blue', // couleur de la bordure
+                            fillOpacity: 0.5 // opacité de remplissage
+                        });
+
+                        // Ajout du marqueur à la couche
+                        layer.addLayer(marker);
+                    });
+
+                    // Ajout de la nouvelle couche à la carte
+                    layer.addTo(map);
+                }
+            });
+        });
+
+
+
+        // TRAIN
+        var trainLayerButton = document.getElementById('trainLayerButton');
+
+        // Ajout d'un écouteur d'événement pour le clic sur le bouton
+        trainLayerButton.addEventListener('click', function() {
+            // Retirer la couche existante de la carte
+            map.removeLayer(layer);
+
+            // Créer une nouvelle couche de marqueurs
+            layer = L.layerGroup();
+
+            // Charger les données depuis le fichier JSON
+            $.ajax({
+                url: "donnees_abio_especes.json", 
+                dataType: "json", 
+                success: function(data) {
+                    // Parcours des données JSON
+                    data.forEach(function(point) {
+                        // Récupération des coordonnées lat et lon
+                        var lat = point.lat;
+                        var lon = point.lon;
+
+                        // Création d'un cercle marqueur à la position spécifiée
+                        var marker = L.circleMarker([lat, lon], {
+                            radius: 3, // rayon du cercle
+                            color: 'red', // couleur de la bordure
+                            fillOpacity: 0.5 // opacité de remplissage
+                        });
+
+                        // Ajout du marqueur à la couche
+                        layer.addLayer(marker);
+                    });
+
+                    // Ajout de la nouvelle couche à la carte
+                    layer.addTo(map);
+                }
+            });
+        });
+
+
+        
+        // CODE HEATMAP
+        var heatData = [];
+        var layer; 
+
+        // Sélection du bouton par son ID
+        var hetMapLayerButton = document.getElementById('hetMapLayerButton');
+
+        // Ajout d'un écouteur d'événement pour le clic sur le bouton
+        hetMapLayerButton.addEventListener('click', function() {
+
+            // Vider le tableau des données de densité de points
+            heatData = [];
+
+            map.removeLayer(layer);
+
+
+            $.ajax({
+                url: "donnees_abio_prediction.json", 
+                dataType: "json", 
+                success: function(data) {
+                    // Parcours des données JSON
+                    data.forEach(function(point) {
+                        // Récupération des coordonnées lat et lon
+                        var lat = point.lat;
+                        var lon = point.lon;
+
+                        // Ajout des coordonnées au tableau des données de densité de points
+                        heatData.push([lat, lon]);
+                    });
+
+                    // Création du heatmap à partir des données de densité de points
+                    layer = L.heatLayer(heatData, {
+                        radius: 15 // rayon du heatmap
+                    }).addTo(map);
+
+                    // Réinitialiser le tableau des données de densité de points
+                    heatData = [];
+                }
+            });
+        });
+    </script>
+</body>
+</html>

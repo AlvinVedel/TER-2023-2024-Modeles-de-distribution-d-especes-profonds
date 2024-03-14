@@ -1,0 +1,31 @@
+$.ajax({
+    url: "donnees_abio_especes.json", 
+    dataType: "json", 
+    success: function(data) {
+        // Création d'une couche de marqueurs
+        var markers = L.markerClusterGroup();
+
+        // Parcours des données JSON
+        data.forEach(function(point) {
+            // Récupération des coordonnées lat et lon
+            var lat = point.lat;
+            var lon = point.lon;
+
+            // Création du cercle marqueur avec les coordonnées spécifiées
+            var marker = L.circleMarker([lat, lon], {
+                radius: 2, // rayon du cercle
+                color: 'red', // couleur de la bordure
+                fillOpacity: 0.5 // opacité de remplissage
+            });
+
+            // Liaison de la fenêtre contextuelle au marqueur
+            marker.bindPopup(point.Location + " : " + point.OPEN_DT);
+
+            // Ajout du marqueur à la couche
+            markers.addLayer(marker);
+        });
+
+        // Ajout de la couche de marqueurs clusterisés à la carte
+        map.addLayer(markers);
+    }
+});

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TP 9 </title>
+    <link rel="stylesheet" href="leaflet/leaflet.css" /> 
+<script src="leaflet/leaflet.js"></script> 
+<script src="jquery-3.7.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js" integrity="sha512-M7nHCiNUOwFt6Us3r8alutZLm9qMt4s9951uo8jqO4UwJ1hziseL6O3ndFyigx6+LREfZqnhHxYjKRJ8ZQ69DQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link rel="stylesheet" href="leaflet/MarkerCluster.css" /> 
+<link rel="stylesheet" href="leaflet/MarkerCluster.Default.css" /> 
+<script src="leaflet/leaflet.markercluster.js"></script>
+<script src="leaflet/leaflet-heat.js"></script>
+
+
+<style>
+    #divmap {
+        width: 1200px;
+        height: 800px;
+        border: 3px solid grey;
+    };
+    
+</style>
+
+</head>
+<body>
+    <div id="divmap">
+
+
+    </div>
+    <script>
+        var map = L.map('divmap');
+        map.setView([42.358, -71.059], 13);
+        L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', { 
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; <a href="https://carto.com/attributions">CARTO</a>',
+            maxZoom: 17, 
+            minZoom: 9  
+        } ) 
+            .addTo(map); 
+
+            var ratIcon = L.icon({ 
+                iconUrl: 'data/rat.png',  
+                iconSize: [25,25]
+            });
+
+        $.ajax({ 
+            url: "data/rodents.geojson",  
+            dataType: "json", 
+            success: function(rodents){  
+                var ratLayer = L.geoJson(rodents, { pointToLayer: function(feature,latlng){ 
+                    var marker = L.marker(latlng,{icon: ratIcon}); 
+                    marker.bindPopup(feature.properties.Location+" : "+feature.properties.OPEN_DT); 
+                    return marker; 
+                }} ) //.addTo(map); 
+                var clusters = L.markerClusterGroup(); 
+                clusters.addLayer(ratLayer); 
+                map.addLayer(clusters);
+
+            } 
+        });
+        $.ajax({ 
+            url: "data/neighborhoods.geojson",  
+            dataType: "json", 
+            success: function(neighbordhoods){  
+                L.geoJson(neighbordhoods, {  
+                    style: function(feature){ 
+                    return { color: "#999999", 
+                        weight: 1,  
+                        fillColor: d3.interpolateYlOrRd(feature.properties.density/150.94), 
+                        fillOpacity: 0.6
+                    }},
+                    onEachFeature: function( feature, layer ){ 
+                        layer.bindPopup("<strong>"+feature.properties.Name+"</strong><br/>"+feature.properties.density + " rats par mètre carré"); 
+                    }  
+                }).addTo(map); 
+            } 
+        });
+        $.ajax({ 
+            url: "data/rodents.geojson",  
+            dataType: "json", 
+            success: function(rodents){  
+                var heatPoints = rodents.features.map(function(rat) { 
+                    var location = rat.geometry.coordinates.reverse(); 
+                    location.push(1); 
+                    return location; 
+                }); 
+                var heat = L.heatLayer( 
+                    heatPoints,  
+                    {  
+                    radius: 35  
+                    } 
+                    ); 
+                    map.addLayer(heat); 
+
+            } 
+        });
+
+        
+            
+    </script>
+    
+
+</body>
+</html>

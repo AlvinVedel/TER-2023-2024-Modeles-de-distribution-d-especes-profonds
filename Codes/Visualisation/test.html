@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spiral Matrix Visualization</title>
+    <style>
+        .cell {
+            fill: black;
+            stroke: white;
+        }
+        .red-cell {
+            fill: red;
+            stroke: white;
+        }
+        .text {
+            font-family: Arial, sans-serif;
+            font-size: 6px;
+            fill: white;
+            pointer-events: none;
+        }
+    </style>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+    <svg id="visualization" width="800" height="800"></svg>
+
+    <script>
+        // Taille de la matrice carrée
+        var size = 77;
+        var nbtot = 77*77;
+
+        // Taille des cellules
+        var cellSize = 10;
+
+        // Position de la cellule à mettre en rouge
+        var redCellX = 38; // Position centrée pour une matrice de 77x77
+        var redCellY = 38; // Position centrée pour une matrice de 77x77
+
+        // Création de la visualisation
+        var svg = d3.select("#visualization");
+
+        // Génération de la matrice
+        x = 395 ;
+        y = 395 ;
+        svg.append("rect")
+        .attr("class", "red-cell")
+        .attr("id", nbtot)
+        .attr("x", x)
+        .attr("y", y)
+        .attr("width", cellSize)
+        .attr("height", cellSize);
+        var pas = 1;
+        for (var i = 1; i < 2*size - 1 ; i++) {
+            for (var j = 1; j < pas ; j++) {
+                svg.append("rect")
+                .attr("class", "red-cell")
+                .attr("id", nbtot)
+                .attr("x", x)
+                .attr("y", y)
+                .attr("width", cellSize)
+                .attr("height", cellSize);
+                x += 10 ;
+            }
+        }
+
+
+
+/*
+
+        for (var i = 0; i < size * size; i++) {
+            var coordinates = calculateCoordinates(i);
+            var x = coordinates[0] * cellSize;
+            var y = coordinates[1] * cellSize;
+            var index = i; // Indice unique
+
+            if (coordinates[0] === redCellX && coordinates[1] === redCellY) {
+                svg.append("rect")
+                    .attr("class", "red-cell")
+                    .attr("id", index)
+                    .attr("x", x)
+                    .attr("y", y)
+                    .attr("width", cellSize)
+                    .attr("height", cellSize);
+
+                svg.append("text")
+                    .attr("class", "text")
+                    .attr("x", x + cellSize / 2)
+                    .attr("y", y + cellSize / 2)
+                    .attr("text-anchor", "middle")
+                    .attr("alignment-baseline", "middle")
+                    .text(index);
+            } else {
+                svg.append("rect")
+                    .attr("class", "cell")
+                    .attr("id", index)
+                    .attr("x", x)
+                    .attr("y", y)
+                    .attr("width", cellSize)
+                    .attr("height", cellSize);
+
+                svg.append("text")
+                    .attr("class", "text")
+                    .attr("x", x + cellSize / 2)
+                    .attr("y", y + cellSize / 2)
+                    .attr("text-anchor", "middle")
+                    .attr("alignment-baseline", "middle")
+                    .text(index);
+            }
+        }
+        
+// Fonction pour calculer les coordonnées de la cellule en fonction de l'index
+function calculateCoordinates(index) {
+    // Coordonnées de départ
+    var x = 0;
+    var y = 0;
+    var direction = 0;
+    var steps = 0;
+    var stepChange = false;
+
+    for (var i = 1; i < index; i++) {
+        // Déplacer la cellule en fonction de la direction
+        switch (direction % 4) {
+            case 0:
+                x++;
+                break;
+            case 1:
+                y++;
+                break;
+            case 2:
+                x--;
+                break;
+            case 3:
+                y--;
+                break;
+        }
+
+        // Incrémenter le nombre de pas dans la même direction
+        steps++;
+
+        // Vérifier si nous devons changer de direction
+        if (steps == size - 1 || steps == size / 2) {
+            direction++;
+            steps = 0;
+            stepChange = true;
+        }
+
+        // Vérifier si nous devons réduire la taille de la matrice
+        if (stepChange && steps == 0) {
+            size -= 2;
+            stepChange = false;
+        }
+    }
+
+    return [x, y];
+}
+
+// Parcourir la matrice carrée et afficher les coordonnées des cellules
+for (var i = 0; i < size * size; i++) {
+    var coordinates = calculateCoordinates(i);
+    console.log("Index:", i, "Coordonnées:", coordinates);
+}
+*/
+    </script>
+</body>
+</html>
