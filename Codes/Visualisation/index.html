@@ -166,7 +166,7 @@
 
 
             $.ajax({
-                url: "donnees_abio_prediction.json", 
+                url: "test_json.json", 
                 dataType: "json", 
                 success: function(data) {
                     // Parcours des données JSON
@@ -181,7 +181,7 @@
 
                     // Création du heatmap à partir des données de densité de points
                     layer = L.heatLayer(heatData, {
-                        radius: 15 // rayon du heatmap
+                        radius: 1 // rayon du heatmap
                     }).addTo(map);
 
                     // Réinitialiser le tableau des données de densité de points
