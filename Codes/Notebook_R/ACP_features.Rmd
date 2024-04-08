@@ -1,0 +1,56 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r}
+
+df <- read.csv("C:\\Users\\Utilisateur\\Downloads\\features_1024tanh.csv")
+head(df)
+
+
+```
+
+```{r}
+
+library(FactoMineR)
+df[, 2:1025]
+
+
+resultats_acp <- PCA(df[, 2:1025], ncp=200, scale.unit = TRUE)
+
+```
+
+
+```{r}
+?PCA
+
+eigenvalues <- resultats_acp$eig
+
+ncol(resultats_acp$var$coord)
+
+premieres_variables_principales <- resultats_acp$ind$coord[, 1:200]
+
+premieres_variables_principales
+```
+```{r}
+
+colnames(df[, 1000:1027])
+
+identifiants <- df[, c("surveyId", "type")]
+
+donnees_combinees <- cbind(identifiants, premieres_variables_principales)
+
+write.csv(donnees_combinees, "C:\\Users\\Utilisateur\\Downloads\\ACP_features.csv", row.names = FALSE)
+
+
+```
+
+
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
