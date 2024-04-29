@@ -1,0 +1,27 @@
+Rien :
+{'objective': 'binary:logistic', 'learning_rate': 0.1, 'max_depth': 3, 'min_child_weight': 1, 'n_estimators': 100, 'reg_alpha': 0,'reg_lambda': 1}
+Vrais Positifs: 353     |    Faux Positifs: 142      |    Vrais Négatifs: 18807      |    Faux Négatifs: 543
+
+
+Recall:
+{'learning_rate': 0.1, 'max_depth': 2, 'min_child_weight': 4, 'n_estimators': 100, 'reg_alpha': 0.5, 'reg_lambda': 0.5, 'scale_pos_weight': 21.56105047748977} 
+0.8782470579288182
+Vrais Positifs: 784     |    Faux Positifs: 2740      |    Vrais Négatifs: 16209      |    Faux Négatifs: 112
+
+
+Precision:
+{'learning_rate': 0.5, 'max_depth': 4, 'min_child_weight': 4, 'n_estimators': 100, 'reg_alpha': 0.5, 'reg_lambda': 0.5, 'scale_pos_weight': 10} 
+0.477325522636064
+Vrais Positifs: 544     |    Faux Positifs: 588      |    Vrais Négatifs: 18361      |    Faux Négatifs: 352
+
+
+Accuracy:
+{'learning_rate': 0.1, 'max_depth': 2, 'min_child_weight': 2, 'n_estimators': 100, 'reg_alpha': 0, 'reg_lambda': 0, 'scale_pos_weight': 0} 
+0.9556758229720398
+Vrais Positifs: 0     |    Faux Positifs: 0      |    Vrais Négatifs: 18949      |    Faux Négatifs: 896
+
+
+F1-score:
+{'learning_rate': 0.5, 'max_depth': 4, 'min_child_weight': 2, 'n_estimators': 100, 'reg_alpha': 0.5, 'reg_lambda': 0.5, 'scale_pos_weight': 10} 
+0.5210585075303826
+Vrais Positifs: 537     |    Faux Positifs: 534      |    Vrais Négatifs: 18415      |    Faux Négatifs: 359
