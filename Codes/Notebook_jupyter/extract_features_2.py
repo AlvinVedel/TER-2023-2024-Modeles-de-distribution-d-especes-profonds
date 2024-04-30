@@ -12,9 +12,9 @@ from keras.callbacks import ReduceLROnPlateau
 import tensorflow as tf
 from tensorflow.keras.layers import Input, Conv2D, BatchNormalization, Activation, MaxPooling2D, Add, GlobalAveragePooling2D, Dense
 from tensorflow.keras.models import Model
-
+from sklearn.decomposition import PCA
 import pandas as pd
-os.environ['CUDA_VISIBLE_DEVICES'] = '2'
+os.environ['CUDA_VISIBLE_DEVICES'] = '1'
 
 
 #pa_train = pd.read_csv("/home/data/ter_meduse_log/our_data/output/PresenceAbsenceSurveys/GLC24-PA-metadata-train.csv")
@@ -86,10 +86,10 @@ def basic_block(input_tensor, filters, stride=1):
 def build_resnet(input_shape, num_classes):
     input_tensor = Input(shape=input_shape)
 
-    x = Conv2D(64, kernel_size=(3, 3), strides=(1, 1), padding='same')(input_tensor)
+    x = Conv2D(64, kernel_size=(7, 7), strides=(2, 2), padding='same')(input_tensor)
     x = BatchNormalization()(x)
     x = Activation('relu')(x)
-    #x = MaxPooling2D(pool_size=(3, 3), strides=(2, 2), padding='same')(x)
+    x = MaxPooling2D(pool_size=(3, 3), strides=(2, 2), padding='same')(x)
     x = basic_block(x, filters=64, stride=1)
     x = basic_block(x, filters=64, stride=1)
     x = basic_block(x, filters=128, stride=2)
@@ -99,7 +99,7 @@ def build_resnet(input_shape, num_classes):
     x = basic_block(x, filters=512, stride=2)
     x = basic_block(x, filters=512, stride=1)
     x = GlobalAveragePooling2D()(x)
-    x = Dense(1024, activation ='tanh', name='last_hidden')(x)
+    x = Dense(1024, activation ='elu', name='last_hidden')(x)
     x = Dense(num_classes, activation='sigmoid')(x)
     model = Model(inputs=input_tensor, outputs=x)
     return model
@@ -144,7 +144,7 @@ batch_size=32
 history = model.fit(X,
  y, 
  batch_size=batch_size, 
- epochs=20
+ epochs=10
  )
 
 
@@ -201,14 +201,14 @@ last_hidden_layer = model.get_layer('last_hidden').output
 
 feature_extractor = Model(inputs=model.input, outputs=last_hidden_layer)
 
-#feature_extractor.summary()
+feature_extractor.summary()
 
 # %%
 
 
 features = feature_extractor.predict(X_test)
 features_train = feature_extractor.predict(X)
-#features_train
+features_train
 # %%
 
 df_features = pd.DataFrame(features)
@@ -223,67 +223,5 @@ global_features = pd.concat([df_features, df_features2])
 
 # %%
 
-global_features.to_csv("../../../our_data/data_ter_distribution/outputed_csv/features2_1024tanh.csv")
+global_features.to_csv("../../../our_data/data_ter_distribution/outputed_csv/features_1024elu.csv")
 
-
-
-# %%
-
-
-len(selection.columns)
-
-# %%
-
-
-for i in range(1, len(selection.columns)):
-    print(i)
-    liste_espece = []
-    for j in range(len(df_test)):
-        liste_espece.append(predictions[j][i-1])
-    df_test[selection.columns[i]] = liste_espece
-
-df_test.head()
-
-# %%
-
-df_test.to_csv('../../../our_data/data_ter_distribution/outputed_csv/result/cnn_bioclimatic_monthly5_20tanh.csv')
-
-# %%
-
-### TOP K
-#row = df_test.iloc[0]
-#print(row.nlargest(30).tolist())
-
-# Obtenir les noms des 30 colonnes avec les plus grandes valeurs dans la première ligne
-#top_30_columns = row.nlargest(30).index.tolist()
-#top_30_columns
-
-
-# %%
-"""
-copy = df_test.iloc[:, 1:]
-
-top_30 = []
-for i in range(len(copy)):
-    row = copy.iloc[i]
-    top_30_columns = row.nlargest(30).index.tolist()
-    top_30.append(top_30_columns)
-df_test["predictions"] = top_30
-df_test = df_test[["surveyId", "predictions"]]
-df_test.head()
-
-
-
-# %%
-
-def liste_to_str(liste):
-    chaine = ""
-    for el in liste :
-        chaine += str(el)+" "
-    return chaine
-
-df_test["predictions"] = df_test["predictions"].apply(liste_to_str)
-df_test.head()
-
-df_test.to_csv('../../../our_data/data_ter_distribution/outputed_csv/result/cnn_bioclimatic_monthly_top30_2.csv', index=False)
-"""
